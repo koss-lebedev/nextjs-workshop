@@ -1,11 +1,9 @@
+import { getAllCategoriesAPI } from "@/common/api";
 import { Button } from "@/components/button";
-import { Category } from "@prisma/client";
 
-type Props = {
-  categories: Category[];
-};
+const CategoryTable = async () => {
+  const categories = await getAllCategoriesAPI();
 
-const CategoryTable = ({ categories }: Props) => {
   return (
     <div className="overflow-hidden min-w-full">
       <table className="w-full">

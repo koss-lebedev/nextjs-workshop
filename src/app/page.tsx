@@ -1,5 +1,1 @@
-const Index = () => {
-  return <div>Dobry den</div>;
-};
-
-export default Index;
+export { Overview as default } from "@/modules/dashboard/pages/overview";
