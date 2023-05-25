@@ -3,18 +3,19 @@
 import "server-only";
 import { redirect } from "next/navigation";
 import { ROUTES } from "@/common/routes";
-import { createCategoryAPI, deleteCategoryAPI } from "@/common/api";
 import { revalidatePath } from "next/cache";
+import { deleteCategory } from "./service";
+import { createCategory } from "./service";
 
 const addCategoryAction = async (formData: FormData) => {
-  await createCategoryAPI({
+  await createCategory({
     name: formData.get("name") as string,
   });
   redirect(ROUTES.Categories);
 };
 
 const deleteCategoryAction = async (formData: FormData) => {
-  await deleteCategoryAPI(formData.get("id") as string);
+  await deleteCategory(formData.get("id") as string);
   revalidatePath(ROUTES.Categories);
 };
 

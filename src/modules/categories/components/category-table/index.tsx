@@ -1,9 +1,9 @@
-import { getAllCategoriesAPI } from "@/common/api";
 import { Button } from "@/components/button";
 import { deleteCategoryAction } from "../../actions";
+import { getAllCategories } from "../../service";
 
 const CategoryTable = async () => {
-  const categories = await getAllCategoriesAPI();
+  const categories = await getAllCategories();
 
   return (
     <div className="overflow-hidden min-w-full">
