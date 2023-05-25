@@ -1,5 +1,6 @@
 import { getAllCategoriesAPI } from "@/common/api";
 import { Button } from "@/components/button";
+import { deleteCategoryAction } from "../../actions";
 
 const CategoryTable = async () => {
   const categories = await getAllCategoriesAPI();
@@ -18,7 +19,12 @@ const CategoryTable = async () => {
             <tr key={record.id} className="bg-white border-b">
               <td className="px-6 py-4">{record.name}</td>
               <td className="px-6 py-4 text-right">
-                <Button size="sm">Delete</Button>
+                <form action={deleteCategoryAction}>
+                  <input type="hidden" name="id" value={record.id} />
+                  <Button size="sm" type="submit">
+                    Delete
+                  </Button>
+                </form>
               </td>
             </tr>
           ))}

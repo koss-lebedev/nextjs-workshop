@@ -3,7 +3,7 @@ import { Category } from "@prisma/client";
 const API_URL = "http://localhost:3000/api";
 
 const getAllCategoriesAPI = async () => {
-  const result = await fetch(`${API_URL}/categories`);
+  const result = await fetch(`${API_URL}/categories`, { cache: "no-store" });
   const { categories } = (await result.json()) as { categories: Category[] };
   return categories;
 };
