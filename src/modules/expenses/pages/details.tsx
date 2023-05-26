@@ -1,18 +1,27 @@
+import { notFound } from "next/navigation";
+import { getExpense } from "../service";
+
 type Props = {
   params: {
     id: string;
   };
 };
 
-const ExpenseDetails = ({ params }: Props) => {
+const ExpenseDetails = async ({ params }: Props) => {
+  const expense = await getExpense(params.id);
+
+  if (!expense) {
+    return notFound();
+  }
+
   return (
     <dl>
       <dt className="font-bold">Name</dt>
-      <dd className="mb-2"></dd>
+      <dd className="mb-2">{expense.name}</dd>
       <dt className="font-bold">Cost</dt>
-      <dd className="mb-2">$</dd>
+      <dd className="mb-2">${expense.cost}</dd>
       <dt className="font-bold">Category</dt>
-      <dd className="mb-2"></dd>
+      <dd className="mb-2">{expense.category.name}</dd>
     </dl>
   );
 };
