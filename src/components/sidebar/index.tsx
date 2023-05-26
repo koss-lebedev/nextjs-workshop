@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import Link from "next/link";
 import { ROUTES } from "@/common/routes";
+import { getTotalExpenses } from "@/modules/expenses/service";
 
 const SidebarLink = ({
   href,
@@ -21,7 +22,9 @@ const SidebarLink = ({
   );
 };
 
-const Sidebar = () => {
+const Sidebar = async () => {
+  const total = await getTotalExpenses();
+
   return (
     <aside className="fixed z-20 h-full top-0 left-0 flex flex-shrink-0 flex-col w-64 transition-width duration-75">
       <div className="relative flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white pt-0">
@@ -29,7 +32,9 @@ const Sidebar = () => {
           <div className="flex-1 px-3 bg-white divide-y space-y-1">
             <ul className="space-y-2 pb-2">
               <SidebarLink href={ROUTES.Dashboard}>Dashboard</SidebarLink>
-              <SidebarLink href={ROUTES.Expenses}>Expenses</SidebarLink>
+              <SidebarLink href={ROUTES.Expenses}>
+                Expenses (${total})
+              </SidebarLink>
               <SidebarLink href={ROUTES.Categories}>Categories</SidebarLink>
             </ul>
           </div>

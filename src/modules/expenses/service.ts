@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { prisma } from "@/common/db-client";
 import { Expense } from "@prisma/client";
 
@@ -9,14 +10,14 @@ const getAllExpenses = () => {
   });
 };
 
-const getTotalExpenses = async () => {
+const getTotalExpenses = cache(async () => {
   const result = await prisma.expense.aggregate({
     _sum: {
       cost: true,
     },
   });
   return result._sum.cost || 0;
-};
+});
 
 const getGroupedExpenses = () => {
   return prisma.expense.groupBy({

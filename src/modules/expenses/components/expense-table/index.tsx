@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Category, Expense } from "@prisma/client";
 import { ROUTES } from "@/common/routes";
@@ -5,9 +7,10 @@ import { Button } from "@/components/button";
 
 type Props = {
   data: Array<Expense & { category: Category }>;
+  onDelete: (id: string) => void;
 };
 
-const ExpenseTable = ({ data }: Props) => {
+const ExpenseTable = ({ data, onDelete }: Props) => {
   return (
     <div className="overflow-hidden min-w-full">
       <table className="w-full">
@@ -28,7 +31,9 @@ const ExpenseTable = ({ data }: Props) => {
               <td className="px-6 py-4">{record.category.name}</td>
               <td className="px-6 py-4">${record.cost}</td>
               <td className="px-6 py-4 text-right">
-                <Button size="sm">Delete</Button>
+                <Button size="sm" onClick={() => onDelete(record.id)}>
+                  Delete
+                </Button>
               </td>
             </tr>
           ))}

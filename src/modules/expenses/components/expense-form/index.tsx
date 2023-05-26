@@ -23,8 +23,13 @@ const ExpenseForm = ({ onCreate, categories }: Props) => {
     resolver: zodResolver(createExpenseSchema),
   });
 
+  const onSubmit = (values: CreateExpenseSchema) => {
+    onCreate(values);
+    reset();
+  };
+
   return (
-    <form className="max-w-xs">
+    <form className="max-w-xs" onSubmit={handleSubmit(onSubmit)}>
       <TextInput
         label="Name"
         error={errors.name?.message}

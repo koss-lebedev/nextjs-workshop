@@ -1,9 +1,13 @@
 import { ExpenseTable } from "@/modules/expenses/components/expense-table";
+import { getAllExpenses } from "../service";
+import { deleteExpenseAction } from "../actions";
 
-const ExpenseList = () => {
+const ExpenseList = async () => {
+  const expenses = await getAllExpenses();
+
   return (
     <div>
-      <ExpenseTable data={[]} />
+      <ExpenseTable data={expenses} onDelete={deleteExpenseAction} />
     </div>
   );
 };

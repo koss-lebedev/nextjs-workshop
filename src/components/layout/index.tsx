@@ -19,6 +19,7 @@ const RootLayout = ({ children }: Props) => {
     <html lang="en">
       <body className={inter.className}>
         <div className="flex overflow-hidden bg-white">
+          {/* @ts-ignore RSC */}
           <Sidebar />
           <main className="h-full w-full min-h-screen bg-slate-50 relative overflow-y-auto ml-64">
             {children}
