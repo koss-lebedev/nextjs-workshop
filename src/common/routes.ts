@@ -5,6 +5,7 @@ const ROUTES = {
   ExpensesNew: "/expenses/new",
   Categories: "/categories",
   CategoriesNew: "/categories/new",
+  Login: "/login",
 };
 
 export { ROUTES };

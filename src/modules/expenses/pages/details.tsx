@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { getExpense } from "../service";
+import { requireUser } from "@/modules/auth/service";
 
 type Props = {
   params: {
@@ -8,9 +9,10 @@ type Props = {
 };
 
 const ExpenseDetails = async ({ params }: Props) => {
+  const user = await requireUser();
   const expense = await getExpense(params.id);
 
-  if (!expense) {
+  if (!expense || expense.userId !== user.id) {
     return notFound();
   }
 

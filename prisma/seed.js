@@ -1,4 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
+const bcrypt = require("bcrypt");
 
 const prisma = new PrismaClient();
 
@@ -13,11 +14,18 @@ const main = async () => {
     )
   );
 
+  const user = await prisma.user.create({
+    data: {
+      email: "user@test.com",
+      passwordHash: bcrypt.hashSync("Admin000", 10),
+    },
+  });
+
   await Promise.all(
     [
-      { name: "La Patrona", cost: 14, categoryId: food.id },
-      { name: "Vacation", cost: 850, categoryId: fun.id },
-      { name: "Rent", cost: 1200, categoryId: bills.id },
+      { name: "La Patrona", cost: 14, categoryId: food.id, userId: user.id },
+      { name: "Vacation", cost: 850, categoryId: fun.id, userId: user.id },
+      { name: "Rent", cost: 1200, categoryId: bills.id, userId: user.id },
     ].map((expense) =>
       prisma.expense.create({
         data: expense,

@@ -24,6 +24,17 @@ model Expense {
   cost       Int
   category   Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
   categoryId String
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String
 
   @@map("expenses")
+}
+
+model User {
+  id           String    @id @default(uuid())
+  email        String    @unique
+  passwordHash String
+  expenses     Expense[]
+
+  @@map("users")
 }

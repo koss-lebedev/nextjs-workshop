@@ -1,9 +1,12 @@
 import { cache } from "react";
 import { prisma } from "@/common/db-client";
-import { Expense } from "@prisma/client";
+import { Expense, User } from "@prisma/client";
 
-const getAllExpenses = () => {
+const getAllExpenses = (userId: User["id"]) => {
   return prisma.expense.findMany({
+    where: {
+      userId,
+    },
     include: {
       category: true,
     },
@@ -19,9 +22,12 @@ const getTotalExpenses = cache(async () => {
   return result._sum.cost || 0;
 });
 
-const getGroupedExpenses = () => {
+const getGroupedExpenses = (userId: User["id"]) => {
   return prisma.expense.groupBy({
     by: ["categoryId"],
+    where: {
+      userId,
+    },
     _sum: {
       cost: true,
     },

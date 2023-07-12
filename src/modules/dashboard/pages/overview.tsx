@@ -1,9 +1,11 @@
 import { getAllCategories } from "@/modules/categories/service";
 import { getGroupedExpenses } from "@/modules/expenses/service";
 import { Chart } from "../components/chart";
+import { requireUser } from "@/modules/auth/service";
 
 const Overview = async () => {
-  const groupedExpenses = await getGroupedExpenses();
+  const user = await requireUser();
+  const groupedExpenses = await getGroupedExpenses(user.id);
   const categories = await getAllCategories();
 
   const data = [
