@@ -6,6 +6,7 @@ const ROUTES = {
   Categories: "/categories",
   CategoriesNew: "/categories/new",
   Login: "/login",
+  Passkeys: "/passkeys",
 };
 
 export { ROUTES };

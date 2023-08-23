@@ -1,7 +1,9 @@
 import { ReactNode } from "react";
 import Link from "next/link";
 import { ROUTES } from "@/common/routes";
+import { Button } from "@/components/button";
 import { getTotalExpenses } from "@/modules/expenses/service";
+import { signOutAction } from "@/modules/auth/actions";
 
 const SidebarLink = ({
   href,
@@ -36,7 +38,15 @@ const Sidebar = async () => {
                 Expenses (${total})
               </SidebarLink>
               <SidebarLink href={ROUTES.Categories}>Categories</SidebarLink>
+              <SidebarLink href={ROUTES.Passkeys}>Passkeys</SidebarLink>
             </ul>
+          </div>
+          <div className="px-5">
+            <form action={signOutAction}>
+              <Button type="submit" block>
+                Sign out
+              </Button>
+            </form>
           </div>
         </div>
       </div>

@@ -31,10 +31,23 @@ model Expense {
 }
 
 model User {
-  id           String    @id @default(uuid())
-  email        String    @unique
+  id           String       @id @default(uuid())
+  email        String       @unique
   passwordHash String
   expenses     Expense[]
+  credentials  Credential[]
 
   @@map("users")
+}
+
+model Credential {
+  id         String @id @default(uuid())
+  credID     String
+  publicKey  String
+  name       String
+  transports String
+  user       User   @relation(fields: [userId], references: [id])
+  userId     String
+
+  @@map("credentials")
 }

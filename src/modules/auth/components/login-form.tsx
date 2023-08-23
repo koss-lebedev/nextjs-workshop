@@ -1,19 +1,26 @@
 "use client";
 
-import { Button } from "@/components/button";
-import { TextInput } from "@/components/form/text-input";
-import { authenticateAction } from "../actions";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { LoginSchema, loginSchema } from "../schemas";
+import {
+  browserSupportsWebAuthn,
+  startAuthentication,
+} from "@simplewebauthn/browser";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { TextInput } from "@/components/form/text-input";
+import { Button } from "@/components/button";
 import { ROUTES } from "@/common/routes";
+import { LoginSchema, loginSchema } from "../schemas";
+import { authenticateAction } from "../actions";
 
 type Props = {
   action: typeof authenticateAction;
 };
 
 const LoginForm = ({ action }: Props) => {
+  const passkeySupported = useMemo(() => browserSupportsWebAuthn(), []);
+
   const {
     handleSubmit,
     register,
@@ -32,6 +39,25 @@ const LoginForm = ({ action }: Props) => {
     } else {
       router.push(ROUTES.Dashboard);
     }
+  };
+
+  const onPasskeyAuth = async () => {
+    const response = await fetch("/api/passkeys/authenticate", {
+      cache: "no-cache",
+    });
+    const options = await response.json();
+    console.log(options);
+
+    const credential = await startAuthentication(options);
+
+    console.log(credential);
+
+    await fetch("/api/passkeys/authenticate", {
+      method: "POST",
+      body: JSON.stringify(credential),
+    });
+
+    router.push(ROUTES.Dashboard);
   };
 
   return (
@@ -54,6 +80,14 @@ const LoginForm = ({ action }: Props) => {
       <Button type="submit" block>
         Log in
       </Button>
+      {passkeySupported && (
+        <>
+          <div className="text-center my-2">or</div>
+          <Button type="button" block onClick={onPasskeyAuth}>
+            Log in with passkey
+          </Button>
+        </>
+      )}
     </form>
   );
 };

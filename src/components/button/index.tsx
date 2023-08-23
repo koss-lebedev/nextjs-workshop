@@ -13,6 +13,7 @@ const ButtonLike = <T extends ElementType>({
   block,
   treatAs,
   size,
+  className,
   ...props
 }: ButtonProps<T>) => {
   const Comp = treatAs || "button";
@@ -23,7 +24,8 @@ const ButtonLike = <T extends ElementType>({
         "bg-cyan-600 hover:bg-cyan-500 text-white hover:shadow-md hover:shadow-cyan-400/30",
         "rounded-md px-4 py-3 transition-all inline-block text-center",
         block && "w-full",
-        size === "sm" && `px-2 py-1 text-sm`
+        size === "sm" && `px-2 py-1 text-sm`,
+        className
       )}
       {...props}
     >
